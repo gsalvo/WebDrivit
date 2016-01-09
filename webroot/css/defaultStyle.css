@@ -1,0 +1,72 @@
+@font-face {
+    font-family: ubuntu;
+    src: url(../fonts/Ubuntu-MI.ttf);
+}
+
+body, html {
+	background-color: #dfdfdf;
+	height: 100%;
+}
+
+.header {
+	height: 51px;
+	background-color: #53b369;
+}
+
+.container.body {
+	min-height: calc(100% - 60px);
+	max-height: auto;
+	background-color: white;
+}
+
+/* Bootstrap */
+@media (min-width: 1200px) {
+	.container {
+    	width: 1025px;
+	}
+}
+
+.navbar-default {
+    background-color: #53b369;
+    border-color: transparent;
+}
+.navbar-default .navbar-brand {
+    color: white;
+    font-family: ubuntu;
+    font-size: 30px;
+}
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 0px;
+    margin-right: 35px;
+    line-height: 20px;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+	color: white;
+    font-family: ubuntu;
+    font-size: 30px;	
+}
+.navbar-default .navbar-nav>li>a {
+    color: white;
+}
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+    color: #FFF;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+}
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
+}
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+    background-color: transparent;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: white;
+}
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    color: #FFF;
+    background-color: rgba(0, 0, 0, 0.1);
+}
