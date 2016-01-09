@@ -1,3 +1,14 @@
+<div class="container-fluid content">
+    <div class="row">
+        <?= $this->Html->link(
+            'Nueva pregunta',
+            ['controller'=> 'Questions', 'action'=>'add', '_full' => true],
+            ['class' => 'btn btn-success'])?>
+    </div>
+</div>
+
+
+
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
