@@ -2,6 +2,10 @@
     font-family: ubuntu;
     src: url(../fonts/Ubuntu-MI.ttf);
 }
+@font-face {
+    font-family: lato-light;
+    src: url(../fonts/Lato-L.ttf);
+}
 
 body, html {
 	background-color: #dfdfdf;
@@ -49,6 +53,9 @@ body, html {
 }
 .navbar-default .navbar-nav>li>a {
     color: white;
+    font-family: lato-light;
+    font-size: 17px;
+
 }
 .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
     color: #FFF;

@@ -58,7 +58,7 @@ $cakeDescription = 'Drivit: Panel de administración';
                                             ['controller' => 'Questions', 'action' => 'index', '_full' => true]) ?>
                                         </li>
                                         <li><?= $this->Html->link(
-                                            'Cantidadess',
+                                            'Cantidades',
                                             ['controller' => 'Questions', 'action' => 'index', '_full' => true]) ?>
                                         </li>
                                     </ul>
