@@ -18,11 +18,24 @@ class QuestionsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Categories']
-        ];
-        $this->set('questions', $this->paginate($this->Questions));
-        $this->set('_serialize', ['questions']);
+
+
+        $this->paginate = ['limit' => 7];
+        $query = $this->Questions->find()->contain(['Categories','Alternatives','Types']);
+        $query->matching('Alternatives')->distinct('questions.id');
+        $query->matching('Types')->distinct('questions.id'); 
+        $number = $query->count(); 
+        $this->set('questions', $this->paginate($query));
+        $this->set('number', $number);
+        $this->set('_serialize', ['questions','number']);
+
+
+        //$this->paginate = [
+        //            'contain' => ['Categories', 'alternatives']
+        //];
+        
+        //$this->set('questions', $this->paginate($this->Questions));
+        //$this->set('_serialize', ['questions']);
     }
 
     /**

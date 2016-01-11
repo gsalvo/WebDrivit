@@ -10,6 +10,7 @@
 body, html {
 	background-color: #dfdfdf;
 	height: 100%;
+    min-width: 540px;
 }
 
 .header {
@@ -27,7 +28,69 @@ body, html {
 	margin: 15px;
 }
 
+.row.content-menu .col-md-7, .row.content-menu .col-md-5{
+    padding-top: 15px;
+}
+
+.row.information {
+    color: #53b369;
+    font-weight: 500;
+}
+
+.table-question {
+    width: 38%;
+}
+.table-class {
+    width: 2%;
+}
+.table-category {
+    width: 18%;
+}
+.table-alternatives {
+    width: 30%;
+}
+.table-actions {
+    width: 12%;
+}
+td.action { 
+    font-size: 23px;
+    vertical-align: middle;
+    text-align: center;
+}
+.paginator {
+    margin: 0 auto;
+    width: 462px;
+}
+
+span.glyphicon.glyphicon-ok.icon-check{
+    color: #53b369;
+}
+span.glyphicon.glyphicon-remove.icon-check {
+    color:rgb(255,56,62);
+}
+span.glyphicon.glyphicon-ok.icon-check, span.glyphicon.glyphicon-remove.icon-check {
+    float: right;
+}
+
 /* Bootstrap */
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #53b369;
+    border-color: #53b369;
+}
+
+.table>tbody>tr>td{
+    padding: 5px;
+    padding-right: 8px;
+}
+.table {
+    margin-top: 35px;
+    font-size: 13px;
+    color: grey;
+}
+
 @media (min-width: 1200px) {
 	.container {
     	width: 1025px;

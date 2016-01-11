@@ -1,60 +1,107 @@
 <div class="container-fluid content">
-    <div class="row">
-        <?= $this->Html->link(
-            'Nueva pregunta',
-            ['controller'=> 'Questions', 'action'=>'add', '_full' => true],
-            ['class' => 'btn btn-success'])?>
+    <div class="row information">
+        Cantidad total de preguntas: <?= $number ?>
     </div>
-</div>
-
-
-
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Question'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Categories'), ['controller' => 'Categories', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Category'), ['controller' => 'Categories', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Alternatives'), ['controller' => 'Alternatives', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Alternative'), ['controller' => 'Alternatives', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Types'), ['controller' => 'Types', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Type'), ['controller' => 'Types', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="questions index large-9 medium-8 columns content">
-    <h3><?= __('Questions') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+    <div class="row content-menu">
+        <div class="col-md-7">
+            <div class="row">
+                <?= $this->Html->link(
+                'Nueva pregunta',
+                ['controller'=> 'Questions', 'action'=>'add', '_full' => true],
+                ['class' => 'btn btn-success'])?>
+            </div>            
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="input-group">
+                    <?= $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...']) ?>
+                    <?= $this->Html->tag('span', $this->Form->button('Buscar', ['type'=> 'button', 'class'=> 'btn btn-default']), ['class'=>'input-group-btn'],['escape'=> false]) ?>
+                </div>            
+            </div>            
+        </div>        
+    </div>
+    <table class="table">
         <thead>
-            <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('question') ?></th>
-                <th><?= $this->Paginator->sort('image') ?></th>
-                <th><?= $this->Paginator->sort('category_id') ?></th>
-                <th class="actions"><?= __('Actions') ?></th>
+            <tr>                
+                <th class="table-question"><?= $this->Paginator->sort('question','Pregunta') ?></th>
+                <th class="table-class"><?= $this->Paginator->sort('class', 'Clase') ?></th>
+                <th class="table-category"><?= $this->Paginator->sort('name', 'Categoría') ?></th>
+                <th class="table-alternatives"><?= $this->Paginator->sort('alternative', 'Alternativas') ?></th>
+                <th class="table-actions">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($questions as $question): ?>
-            <tr>
-                <td><?= $this->Number->format($question->id) ?></td>
-                <td><?= h($question->question) ?></td>
-                <td><?= h($question->image) ?></td>
-                <td><?= $question->has('category') ? $this->Html->link($question->category->name, ['controller' => 'Categories', 'action' => 'view', $question->category->id]) : '' ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $question->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $question->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $question->id], ['confirm' => __('Are you sure you want to delete # {0}?', $question->id)]) ?>
-                </td>
-            </tr>
+            <?php foreach ($questions as $question):?>  
+                <tr>                    
+                    <td rowspan="3">
+                        <?= $this->Text->truncate(
+                            $question->question,
+                            170,
+                            ['ellipsis' => '...', 'exact'=> false]) 
+                        ?>
+                    </td>
+                    <td rowspan="3"> <?= (count($question->types) > 1) ? 'B y C': $question->types[0]->class  ?></td>
+                    <td rowspan="3"> <?= $question->category->name ?></td>                    
+                    <td>
+                        <?= $this->Text->truncate(
+                            $question->alternatives[0]->alternative,
+                            38,
+                            ['ellipsis' => '...', 'exact'=> false]) 
+                        ?>
+                        <?php 
+                            if($question->alternatives[0]->right){
+                                echo '<span class="glyphicon glyphicon-ok icon-check"/>';
+                            }else{
+                                echo '<span class="glyphicon glyphicon-remove icon-check"/>';
+                            }
+                         ?>                        
+                    </td> 
+                    <td style="vertical-align: middle;" Class="action" rowspan="3"> 
+                        <?= $this->Html->link('<span class="glyphicon glyphicon-eye-open"/>', ['action' => 'view', $question->id],['escape'=> false]) ?>
+                        <?= $this->Html->link('<span class="glyphicon glyphicon-pencil"/>', ['action' => 'edit', $question->id],['escape'=> false]) ?>
+                        <?= $this->Form->postLink('<span class="glyphicon glyphicon-trash"/>', ['action' => 'delete', $question->id], ['confirm' => __('Estás seguro que desea eliminar la pregunta: "{0}"', $question->question), 'escape'=> false]) ?>
+                    </td>                        
+                </tr>
+                <tr>
+                    <td>
+                        <?= $this->Text->truncate(
+                            $question->alternatives[1]->alternative,
+                            38,
+                            ['ellipsis' => '...', 'exact'=> false]) 
+                        ?>
+                        <?php 
+                            if($question->alternatives[1]->right){
+                                echo '<span class="glyphicon glyphicon-ok icon-check"/>';
+                            }else{
+                                echo '<span class="glyphicon glyphicon-remove icon-check"/>';
+                            }
+                         ?> 
+                    </td>
+                </tr>
+                <tr>
+                    <td >
+                        <?= $this->Text->truncate(
+                            $question->alternatives[2]->alternative,
+                            38,
+                            ['ellipsis' => '...', 'exact'=> false]) 
+                        ?>
+                        <?php 
+                            if($question->alternatives[2]->right){
+                                echo '<span class="glyphicon glyphicon-ok icon-check"/>';
+                            }else{
+                                echo '<span class="glyphicon glyphicon-remove icon-check"/>';
+                            }
+                         ?> 
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+            <?= $this->Paginator->prev('&laquo;', ['escape'=> false]) ?>
             <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-        </ul>
-        <p><?= $this->Paginator->counter() ?></p>
+            <?= $this->Paginator->next('&raquo;', ['escape'=> false]) ?>
+        </ul>        
     </div>
 </div>
