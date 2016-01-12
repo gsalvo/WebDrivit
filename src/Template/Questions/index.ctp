@@ -21,13 +21,21 @@
                         ]
                 ]) ?>
                 <div class="input-group">
-                    <?= $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search']) ?>
+                    <?php
+                        if(isset($search)){
+                            echo $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search', 'value' => $search]);
+                        }else{
+                            echo $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search']);      
+                        }
+                    ?>
+                    
                     <?= $this->Html->tag('span', $this->Form->button('Buscar', ['type'=> 'submit', 'class'=> 'btn btn-default']), ['class'=>'input-group-btn'],['escape'=> false]) ?>
                 </div>
                 <?= $this->Form->end(); ?>          
             </div>            
         </div>        
     </div>
+    <?php if($number > 0){ ?>
     <table class="table">
         <thead>
             <tr>                
@@ -40,7 +48,6 @@
         </thead>
         <tbody>
             <?php foreach ($questions as $question):?>
-
                 <tr>                    
                     <td rowspan="3">
                         <?= $this->Text->truncate(
@@ -106,6 +113,28 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <?php 
+    }else{
+    ?>
+    <div class="row notFoundResult">        
+        <div class="row">
+            <div class="col-md-3 image"><?= $this->Html->image('face_sad.png', ['alt' => 'No ha habido coincidencias', 'width'=>'70px']) ?></div>
+            <div class="col-md-9">
+                <div class="row text">Lo Siento no se han encontrado coincidencias.</div>
+                <div class="row button">
+                    <?= $this->Html->link(
+                    'Volver',
+                    ['controller'=> 'Questions', 'action'=>'index', '_full' => true],
+                    ['class' => 'btn btn-success'])?></div>
+            </div>            
+        </div>
+    </div>
+    <?php
+    }
+    ?>
+    <?php 
+        if($this->Paginator->counter('{{pages}}') > 1){
+    ?>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->prev('&laquo;', ['escape'=> false]) ?>
@@ -113,4 +142,13 @@
             <?= $this->Paginator->next('&raquo;', ['escape'=> false]) ?>
         </ul>        
     </div>
+    <?php 
+    }
+    ?>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#btn-questions").attr('class', 'active');
+        $("#btn-quantity").attr('class', '');
+    });
+</script>

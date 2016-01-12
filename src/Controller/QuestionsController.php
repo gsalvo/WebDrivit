@@ -24,22 +24,23 @@ class QuestionsController extends AppController
         $query->matching('Types')->distinct('questions.id');                        
         if(isset($this->request->query['search'])){ 
             $search = $this->request->query['search'];           
-            $query->where(['OR' => ['question LIKE'=> '%'.$search.'%', 'Categories.name LIKE' => '%'.$search.'%','Types.class LIKE'=> '%'.$search.'%',
-                'Alternatives.alternative LIKE'=> '%'.$search.'%']]);
+            $this->set('search', $search);
+
+            if(strcasecmp($search,"clase b") == 0){
+                $query->where(['Types.class ='=>'B']);
+            }else if(strcasecmp($search,"clase c") == 0){
+                $query->where(['Types.class ='=>'C']);
+            }else if(strcasecmp($search,"clase b y c") == 0 || strcasecmp($search, "b y c")== 0){
+                $query->where(['AND' =>['Types.class ='=>'B','Types.class ='=>'C']]);
+            }else{
+                $query->where(['OR' => ['question LIKE'=> '%'.$search.'%', 'Categories.name LIKE' => '%'.$search.'%','Types.class LIKE'=> '%'.$search.'%',
+                'Alternatives.alternative LIKE'=> '%'.$search.'%']]);    
+            }            
         }
         $number = $query->count(); 
-
         $this->set('questions', $this->paginate($query));
         $this->set('number', $number);
-        $this->set('_serialize', ['questions','number']);
-
-
-        //$this->paginate = [
-        //            'contain' => ['Categories', 'alternatives']
-        //];
-        
-        //$this->set('questions', $this->paginate($this->Questions));
-        //$this->set('_serialize', ['questions']);
+        $this->set('_serialize', ['questions','number']);        
     }
 
     /**
@@ -126,4 +127,74 @@ class QuestionsController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
+
+    /**
+     * quantity method
+     *
+     * @return void
+     */
+    public function quantity(){
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $totalNumber = $query->count(); 
+
+        //cat 1 - class B
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 1, 'Types.class =' => 'B']]);
+        $number1B= $query->count();
+
+        //cat 2 - class B
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 2, 'Types.class =' => 'B']]);
+        $number2B= $query->count();
+
+        //cat 3 - class B
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 3, 'Types.class =' => 'B']]);
+        $number3B= $query->count();
+
+        //cat 4 - class B
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 4, 'Types.class =' => 'B']]);
+        $number4B= $query->count();
+
+        //cat 1 - class C
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 1, 'Types.class =' => 'C']]);
+        $number1C= $query->count();        
+        //cat 2 - class C
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 2, 'Types.class =' => 'C']]);
+        $number2C= $query->count();
+        //cat 3 - class C
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 3, 'Types.class =' => 'C']]);
+        $number3C= $query->count();
+        //cat 4 - class C
+        $query = $this->Questions->find()->contain(['Types']);        
+        $query->matching('Types')->distinct('questions.id');
+        $query->where(["AND"=> ["category_id ="=> 4, 'Types.class =' => 'C']]);
+        $number4C= $query->count();
+        
+
+        $this->set('totalNumber', $totalNumber);
+        $this->set('number1B', $number1B);
+        $this->set('number2B', $number2B);
+        $this->set('number3B', $number3B);
+        $this->set('number4B', $number4B);
+        $this->set('number1C', $number1C);
+        $this->set('number2C', $number2C);
+        $this->set('number3C', $number3C);
+        $this->set('number4C', $number4C);
+        $this->set('_serialize', ['totalNumber', 'number1B', 'number2B', 'number3B', 'number4B',
+        'number1C','number2C','number3C','number4C']);
+    }
 }
+
