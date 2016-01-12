@@ -13,10 +13,18 @@
         </div>
         <div class="col-md-5">
             <div class="row">
+                <?= $this->Form->create(null, [
+                    'type' => 'get', 
+                    'url' => [
+                        'controller' => 'questions', 
+                        'action' => 'index'
+                        ]
+                ]) ?>
                 <div class="input-group">
-                    <?= $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...']) ?>
-                    <?= $this->Html->tag('span', $this->Form->button('Buscar', ['type'=> 'button', 'class'=> 'btn btn-default']), ['class'=>'input-group-btn'],['escape'=> false]) ?>
-                </div>            
+                    <?= $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search']) ?>
+                    <?= $this->Html->tag('span', $this->Form->button('Buscar', ['type'=> 'submit', 'class'=> 'btn btn-default']), ['class'=>'input-group-btn'],['escape'=> false]) ?>
+                </div>
+                <?= $this->Form->end(); ?>          
             </div>            
         </div>        
     </div>
@@ -24,14 +32,15 @@
         <thead>
             <tr>                
                 <th class="table-question"><?= $this->Paginator->sort('question','Pregunta') ?></th>
-                <th class="table-class"><?= $this->Paginator->sort('class', 'Clase') ?></th>
-                <th class="table-category"><?= $this->Paginator->sort('name', 'Categoría') ?></th>
-                <th class="table-alternatives"><?= $this->Paginator->sort('alternative', 'Alternativas') ?></th>
+                <th class="table-class">Clase</th>
+                <th class="table-category">Categoría</th>
+                <th class="table-alternatives">Alternativas</th>
                 <th class="table-actions">Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($questions as $question):?>  
+            <?php foreach ($questions as $question):?>
+
                 <tr>                    
                     <td rowspan="3">
                         <?= $this->Text->truncate(
