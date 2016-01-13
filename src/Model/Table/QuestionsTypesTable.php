@@ -28,7 +28,7 @@ class QuestionsTypesTable extends Table
 
         $this->table('questions_types');
         $this->displayField('id');
-        $this->primaryKey(['id', 'questions_id', 'types_id']);
+        $this->primaryKey(['id', 'question_id', 'type_id']);
 
         $this->belongsTo('Questions', [
             'foreignKey' => 'question_id',

@@ -36,7 +36,8 @@ class QuestionsTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->hasMany('Alternatives', [
-            'foreignKey' => 'question_id'
+            'foreignKey' => 'question_id',
+            'dependent' => true
         ]);
         $this->belongsToMany('Types', [
             'foreignKey' => 'question_id',
@@ -55,7 +56,8 @@ class QuestionsTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('question', 'create')
@@ -76,6 +78,7 @@ class QuestionsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->isUnique(['id']));
         $rules->add($rules->existsIn(['category_id'], 'Categories'));
         return $rules;
     }

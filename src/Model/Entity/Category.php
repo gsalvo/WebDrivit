@@ -9,6 +9,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $name
  * @property bool $special
+ * @property \App\Model\Entity\Question[] $questions
  */
 class Category extends Entity
 {

@@ -46,12 +46,12 @@ class TypesTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('class', 'create')
-            ->notEmpty('class')
-            ->add('class', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->notEmpty('class');
 
         return $validator;
     }
@@ -65,7 +65,7 @@ class TypesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['class']));
+        $rules->add($rules->isUnique(['id']));
         return $rules;
     }
 }

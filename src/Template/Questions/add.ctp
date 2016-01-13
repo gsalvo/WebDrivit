@@ -23,7 +23,7 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <?= $this->Form->checkbox('classc', ['value' => '1']);?>
+                        <?= $this->Form->checkbox('classC', ['value' => '1']);?>
                         Clase C
                     </label>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <?= $this->Form->radio('right', [['value' => '1', 'text'=> '', 'id'=> 'right-1']],['hiddenField'=>false]) ?>
+                            <?= $this->Form->radio('correct', [['value' => '1', 'text'=> '', 'id'=> 'correct-1']],['hiddenField'=>false]) ?>
                         </span>
                         <?= $this->Form->input('alternative-1',['label'=>false, 'class'=>'form-control']) ?>
                     </div>            
@@ -44,7 +44,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <?= $this->Form->radio('right', [['value' => '2', 'text'=> '', 'id'=> 'right-2']],['hiddenField'=>false]) ?>
+                            <?= $this->Form->radio('correct', [['value' => '2', 'text'=> '', 'id'=> 'correct-2']],['hiddenField'=>false]) ?>
                         </span>
                         <?= $this->Form->input('alternative-2',['label'=>false, 'class'=>'form-control']) ?>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <?= $this->Form->radio('right', [['value' => '3', 'text'=> '', 'id'=> 'right-3']],['hiddenField'=>false]) ?>
+                            <?= $this->Form->radio('correct', [['value' => '3', 'text'=> '', 'id'=> 'correct-3']],['hiddenField'=>false]) ?>
                         </span>
                         <?= $this->Form->input('alternative-3',['label'=>false, 'class'=>'form-control']) ?>
                     </div>
@@ -67,8 +67,8 @@
         <?= $this->Form->end(); ?> 
     </div>
 </diV>
-
-<!--<nav class="large-3 medium-4 columns" id="actions-sidebar">
+<!--
+<nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('List Questions'), ['action' => 'index']) ?></li>

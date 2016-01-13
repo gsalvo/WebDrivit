@@ -26,6 +26,7 @@ class QuestionsFixture extends TestFixture
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'id_UNIQUE' => ['type' => 'unique', 'columns' => ['id'], 'length' => []],
             'fk_questions_categories1' => ['type' => 'foreign', 'columns' => ['category_id'], 'references' => ['categories', 'id'], 'update' => 'noAction', 'delete' => 'noAction', 'length' => []],
         ],
         '_options' => [

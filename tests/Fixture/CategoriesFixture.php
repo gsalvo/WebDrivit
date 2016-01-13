@@ -22,7 +22,7 @@ class CategoriesFixture extends TestFixture
         'special' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'name_UNIQUE' => ['type' => 'unique', 'columns' => ['name'], 'length' => []],
+            'id_UNIQUE' => ['type' => 'unique', 'columns' => ['id'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

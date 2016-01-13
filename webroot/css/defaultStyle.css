@@ -244,3 +244,9 @@ table.table.quantity>tbody>tr>td {
     color: #FFF;
     background-color: rgba(0, 0, 0, 0.1);
 }
+
+.alert {
+    border-radius: 0px;
+    margin-right: -15px;
+    margin-left: -15px;
+}

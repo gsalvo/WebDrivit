@@ -20,6 +20,7 @@ class QuestionsTypesTableTest extends TestCase
         'app.questions_types',
         'app.questions',
         'app.categories',
+        'app.alternatives',
         'app.types'
     ];
 

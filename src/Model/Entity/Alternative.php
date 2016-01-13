@@ -8,7 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $alternative
- * @property bool $right
+ * @property bool $correct
  * @property int $question_id
  * @property \App\Model\Entity\Question $question
  */
@@ -27,6 +27,6 @@ class Alternative extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
-        'questions_id' => false,
+        'question_id' => false,
     ];
 }

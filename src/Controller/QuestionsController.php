@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Questions Controller
@@ -66,21 +67,63 @@ class QuestionsController extends AppController
      */
     public function add()
     {
-        //$question = $this->Questions->newEntity();
-        if ($this->request->is('post')) {
-            debug($this->request->data);
-            /*$question = $this->Questions->patchEntity($question, $this->request->data);
-            if ($this->Questions->save($question)) {
-                $this->Flash->success(__('The question has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The question could not be saved. Please, try again.'));
-            }*/
+        if ($this->request->is('post')) {            
+            //Save Question
+            $questionsTable  = TableRegistry::get('Questions');
+            $question = $questionsTable->newEntity();            
+            $question->question = $this->request->data['question'];
+            $question->image = $this->request->data['image']['name'];
+            $category = $questionsTable->Categories->findById($this->request->data['category_id'])->first();
+            $question->category = $category;           
+            //Save class
+            if($this->request->data['classB'] == 1 && $this->request->data['classC'] == 0){
+                $classB = $questionsTable->Types->findById('1')->first();
+                $question->types = [$classB];                
+            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 0){
+                $classC = $questionsTable->Types->findById('2')->first();
+                $question->types = [$classC];                
+            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 1){
+                $classB = $questionsTable->Types->findById('1')->first();
+                $classC = $questionsTable->Types->findById('2')->first();
+                $question->types = [$classB, $classC];
+            }
+            //Save Alternative
+            $alternativeA = $questionsTable->Alternatives->newEntity();
+            $alternativeA->alternative = $this->request->data['alternative-1'];
+            $alternativeA->correct = 0;
+            $alternativeB = $questionsTable->Alternatives->newEntity();
+            $alternativeB->alternative = $this->request->data['alternative-2'];
+            $alternativeB->correct = 0;
+            $alternativeC = $questionsTable->Alternatives->newEntity();
+            $alternativeC->alternative = $this->request->data['alternative-3'];
+            $alternativeC->correct = 0;
+            
+            switch ($this->request->data['correct']) {
+                case 1:
+                    $alternativeA->correct = 1;
+                    break;
+                case 2:
+                    $alternativeB->correct = 1;
+                    break;
+                case 3:
+                    $alternativeC->correct = 1;
+                    break;
+            }
+            $question->alternatives = [$alternativeA, $alternativeB, $alternativeC];
+
+            if($questionsTable->save($question)){                                
+                $this->Flash->success(__('La pregunta ha sido guardada'));
+                 return $this->redirect(['action' => 'index']);
+            }else{
+                $this->Flash->error(__('La pregunta no ha podido ser guardada, intente nuevamente'));
+            }
+            
         }
         $categories = $this->Questions->Categories->find('list', ['limit' => 200]);
         $types = $this->Questions->Types->find('list', ['limit' => 200]);
         $this->set(compact('question', 'categories', 'types'));
         $this->set('_serialize', ['question']);
+
     }
 
     /**
@@ -93,16 +136,64 @@ class QuestionsController extends AppController
     public function edit($id = null)
     {
         $question = $this->Questions->get($id, [
-            'contain' => ['Types']
+            'contain' => ['Types', 'Categories', 'Alternatives']
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $question = $this->Questions->patchEntity($question, $this->request->data);
-            if ($this->Questions->save($question)) {
-                $this->Flash->success(__('The question has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The question could not be saved. Please, try again.'));
+        //debug($question);        
+        if ($this->request->is(['patch', 'post', 'put'])) {        
+            //debug($question);
+            //debug($question->alternatives[0]);
+            //Save Question
+            $questionsTable  = TableRegistry::get('Questions');
+            $question = $questionsTable->get($id);
+            $question->question = $this->request->data['question'];
+            $question->image = $this->request->data['image']['name'];
+            $category = $questionsTable->Categories->findById($this->request->data['category_id'])->first();
+            $question->category = $category;           
+            //Save class
+            if($this->request->data['classB'] == 1 && $this->request->data['classC'] == 0){
+                $classB = $questionsTable->Types->findById('1')->first();
+                $question->types = [$classB];                
+            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 0){
+                $classC = $questionsTable->Types->findById('2')->first();
+                $question->types = [$classC];                
+            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 1){
+                $classB = $questionsTable->Types->findById('1')->first();
+                $classC = $questionsTable->Types->findById('2')->first();
+                $question->types = [$classB, $classC];
             }
+            //Save Alternative
+                   
+            $alternativeA = $questionsTable->Alternatives->findById($question->alternatives[0]->id)->first();
+
+            $alternativeA->alternative = $this->request->data['alternative-1'];
+            $alternativeA->correct = 0;
+            $alternativeB = $questionsTable->Alternatives->findById($question->alternatives[1]->id)->first();
+            $alternativeB->alternative = $this->request->data['alternative-2'];
+            $alternativeB->correct = 0;
+            $alternativeC = $questionsTable->Alternatives->findById($question->alternatives[2]->id)->first();
+            $alternativeC->alternative = $this->request->data['alternative-3'];
+            $alternativeC->correct = 0;
+            
+            switch ($this->request->data['correct']) {
+                case 1:
+                    $alternativeA->correct = 1;
+                    break;
+                case 2:
+                    $alternativeB->correct = 1;
+                    break;
+                case 3:
+                    $alternativeC->correct = 1;
+                    break;
+            }
+            $question->alternatives = [$alternativeA, $alternativeB, $alternativeC];
+
+            if($questionsTable->save($question)){                                
+                $this->Flash->success(__('La pregunta ha sido modificada'));
+                 return $this->redirect(['action' => 'index']);
+            }else{
+                $this->Flash->error(__('La pregunta no ha podido ser modificada, intente nuevamente'));
+            }
+            
         }
         $categories = $this->Questions->Categories->find('list', ['limit' => 200]);
         $types = $this->Questions->Types->find('list', ['limit' => 200]);
@@ -122,9 +213,9 @@ class QuestionsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $question = $this->Questions->get($id);
         if ($this->Questions->delete($question)) {
-            $this->Flash->success(__('The question has been deleted.'));
+            $this->Flash->success(__('La pregunta ha sido eliminada.'));
         } else {
-            $this->Flash->error(__('The question could not be deleted. Please, try again.'));
+            $this->Flash->error(__('La pregunta no ha podido ser eliminada, intente nuevamente.'));
         }
         return $this->redirect(['action' => 'index']);
     }

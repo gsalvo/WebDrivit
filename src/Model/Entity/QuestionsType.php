@@ -8,8 +8,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $question_id
- * @property int $type_id
  * @property \App\Model\Entity\Question $question
+ * @property int $type_id
  * @property \App\Model\Entity\Type $type
  */
 class QuestionsType extends Entity
@@ -27,7 +27,7 @@ class QuestionsType extends Entity
     protected $_accessible = [
         '*' => true,
         'id' => false,
-        'questions_id' => false,
-        'types_id' => false,
+        'question_id' => false,
+        'type_id' => false,
     ];
 }

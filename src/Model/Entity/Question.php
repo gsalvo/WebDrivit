@@ -11,6 +11,7 @@ use Cake\ORM\Entity;
  * @property string $image
  * @property int $category_id
  * @property \App\Model\Entity\Category $category
+ * @property \App\Model\Entity\Alternative[] $alternatives
  * @property \App\Model\Entity\Type[] $types
  */
 class Question extends Entity

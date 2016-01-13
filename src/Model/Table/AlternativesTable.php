@@ -27,7 +27,7 @@ class AlternativesTable extends Table
 
         $this->table('alternatives');
         $this->displayField('id');
-        $this->primaryKey(['id', 'questions_id']);
+        $this->primaryKey(['id', 'question_id']);
 
         $this->belongsTo('Questions', [
             'foreignKey' => 'question_id',
@@ -45,16 +45,17 @@ class AlternativesTable extends Table
     {
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
-            ->allowEmpty('id', 'create');
+            ->allowEmpty('id', 'create')
+            ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->requirePresence('alternative', 'create')
             ->notEmpty('alternative');
 
         $validator
-            ->add('right', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('right', 'create')
-            ->notEmpty('right');
+            ->add('correct', 'valid', ['rule' => 'boolean'])
+            ->requirePresence('correct', 'create')
+            ->notEmpty('correct');
 
         return $validator;
     }
@@ -68,6 +69,7 @@ class AlternativesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->isUnique(['id']));
         $rules->add($rules->existsIn(['question_id'], 'Questions'));
         return $rules;
     }

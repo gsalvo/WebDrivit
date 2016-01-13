@@ -65,7 +65,7 @@
                             ['ellipsis' => '...', 'exact'=> false]) 
                         ?>
                         <?php 
-                            if($question->alternatives[0]->right){
+                            if($question->alternatives[0]->correct){
                                 echo '<span class="glyphicon glyphicon-ok icon-check"/>';
                             }else{
                                 echo '<span class="glyphicon glyphicon-remove icon-check"/>';
@@ -86,7 +86,7 @@
                             ['ellipsis' => '...', 'exact'=> false]) 
                         ?>
                         <?php 
-                            if($question->alternatives[1]->right){
+                            if($question->alternatives[1]->correct){
                                 echo '<span class="glyphicon glyphicon-ok icon-check"/>';
                             }else{
                                 echo '<span class="glyphicon glyphicon-remove icon-check"/>';
@@ -102,7 +102,7 @@
                             ['ellipsis' => '...', 'exact'=> false]) 
                         ?>
                         <?php 
-                            if($question->alternatives[2]->right){
+                            if($question->alternatives[2]->correct){
                                 echo '<span class="glyphicon glyphicon-ok icon-check"/>';
                             }else{
                                 echo '<span class="glyphicon glyphicon-remove icon-check"/>';
@@ -120,12 +120,15 @@
         <div class="row">
             <div class="col-md-3 image"><?= $this->Html->image('face_sad.png', ['alt' => 'No ha habido coincidencias', 'width'=>'70px']) ?></div>
             <div class="col-md-9">
-                <div class="row text">Lo Siento no se han encontrado coincidencias.</div>
+                <div class="row text">Lo siento, no se han encontrado resultados</div>
+                <?php if (isset($search)){?>
                 <div class="row button">
                     <?= $this->Html->link(
                     'Volver',
                     ['controller'=> 'Questions', 'action'=>'index', '_full' => true],
-                    ['class' => 'btn btn-success'])?></div>
+                    ['class' => 'btn btn-success'])?>
+                </div>
+                <?php } ?>
             </div>            
         </div>
     </div>

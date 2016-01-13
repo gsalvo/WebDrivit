@@ -77,11 +77,16 @@ $cakeDescription = 'Drivit: Panel de administración';
                 </div>  
             </div>        
         </div>        
-    </div>
+    </div>    
     <div class="container body">
+        <?= $this->Flash->render() ?>
         <div class="row">
             <?= $this->fetch('content') ?>
         </div>
     </div>    
+    <script type="text/javascript">
+        $("#alert").fadeTo(5000, 500).slideUp(500, function(){
+        $("#alert").alert('close');});
+    </script>
 </body>
 </html>

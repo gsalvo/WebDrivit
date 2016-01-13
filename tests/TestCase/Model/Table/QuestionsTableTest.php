@@ -19,6 +19,7 @@ class QuestionsTableTest extends TestCase
     public $fixtures = [
         'app.questions',
         'app.categories',
+        'app.alternatives',
         'app.types',
         'app.questions_types'
     ];
