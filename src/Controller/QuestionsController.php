@@ -66,15 +66,16 @@ class QuestionsController extends AppController
      */
     public function add()
     {
-        $question = $this->Questions->newEntity();
+        //$question = $this->Questions->newEntity();
         if ($this->request->is('post')) {
-            $question = $this->Questions->patchEntity($question, $this->request->data);
+            debug($this->request->data);
+            /*$question = $this->Questions->patchEntity($question, $this->request->data);
             if ($this->Questions->save($question)) {
                 $this->Flash->success(__('The question has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The question could not be saved. Please, try again.'));
-            }
+            }*/
         }
         $categories = $this->Questions->Categories->find('list', ['limit' => 200]);
         $types = $this->Questions->Types->find('list', ['limit' => 200]);
