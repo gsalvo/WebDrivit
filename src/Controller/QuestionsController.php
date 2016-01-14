@@ -141,7 +141,9 @@ class QuestionsController extends AppController
         //debug($question);        
         if ($this->request->is(['patch', 'post', 'put'])) {        
             //debug($question);
-            //debug($question->alternatives[0]);
+            $idAlternativeA = $question->alternatives[0]->id;
+            $idAlternativeB = $question->alternatives[1]->id;
+            $idAlternativeC = $question->alternatives[2]->id;
             //Save Question
             $questionsTable  = TableRegistry::get('Questions');
             $question = $questionsTable->get($id);
@@ -163,14 +165,13 @@ class QuestionsController extends AppController
             }
             //Save Alternative
                    
-            $alternativeA = $questionsTable->Alternatives->findById($question->alternatives[0]->id)->first();
-
+            $alternativeA = $questionsTable->Alternatives->findById($idAlternativeA)->first();
             $alternativeA->alternative = $this->request->data['alternative-1'];
             $alternativeA->correct = 0;
-            $alternativeB = $questionsTable->Alternatives->findById($question->alternatives[1]->id)->first();
+            $alternativeB = $questionsTable->Alternatives->findById($idAlternativeB)->first();
             $alternativeB->alternative = $this->request->data['alternative-2'];
             $alternativeB->correct = 0;
-            $alternativeC = $questionsTable->Alternatives->findById($question->alternatives[2]->id)->first();
+            $alternativeC = $questionsTable->Alternatives->findById($idAlternativeC)->first();
             $alternativeC->alternative = $this->request->data['alternative-3'];
             $alternativeC->correct = 0;
             

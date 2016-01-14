@@ -114,6 +114,15 @@ table span.glyphicon.glyphicon-ok.icon-check, table span.glyphicon.glyphicon-rem
 .row.class{
     margin-top: 15px;
 }
+.row.class.edit{
+    margin-top: 0px;        
+    float: right;
+    margin-right: 15px;
+}
+.circle.car, .circle.motorbike{
+    display: none;
+}
+
 .circle {
     padding-top: 4px;
     width: 50px;

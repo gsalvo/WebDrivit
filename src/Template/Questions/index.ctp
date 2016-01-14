@@ -23,9 +23,9 @@
                 <div class="input-group">
                     <?php
                         if(isset($search)){
-                            echo $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search', 'value' => $search]);
+                            echo $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search', 'value' => $search, 'autocomplete'=>'off']);
                         }else{
-                            echo $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search']);      
+                            echo $this->Form->text('search',['class'=>'form-control', 'placeholder' => 'ingrese palabra clave...', 'name'=>'search', 'autocomplete'=>'off']);      
                         }
                     ?>
                     
