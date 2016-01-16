@@ -26,7 +26,7 @@ class Alternative extends Entity
      */
     protected $_accessible = [
         '*' => true,
-        'id' => false,
-        'question_id' => false,
+        'id' => true,
+        'question_id' => true,
     ];
 }

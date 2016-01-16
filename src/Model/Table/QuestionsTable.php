@@ -61,7 +61,7 @@ class QuestionsTable extends Table
 
         $validator
             ->requirePresence('question', 'create')
-            ->notEmpty('question');
+            ->notEmpty('question','Debe ingresar una pregunta');
 
         $validator
             ->allowEmpty('image');

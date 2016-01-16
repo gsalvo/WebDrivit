@@ -50,12 +50,12 @@ class AlternativesTable extends Table
 
         $validator
             ->requirePresence('alternative', 'create')
-            ->notEmpty('alternative');
+            ->notEmpty('alternative', 'Debe ingresar una alternativa');
 
         $validator
             ->add('correct', 'valid', ['rule' => 'boolean'])
             ->requirePresence('correct', 'create')
-            ->notEmpty('correct');
+            ->notEmpty('correct', 'Debe seleccionar una opción');
 
         return $validator;
     }

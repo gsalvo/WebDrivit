@@ -49,7 +49,7 @@ class CategoriesTable extends Table
 
         $validator
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmpty('name', 'Debe seleccionar una categoría');
 
         $validator
             ->add('special', 'valid', ['rule' => 'boolean'])

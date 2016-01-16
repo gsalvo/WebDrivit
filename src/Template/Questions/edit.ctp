@@ -57,7 +57,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">                            
-                            <?= $this->Form->radio('correct', [['value' => '1', 'text'=> '', 'id'=> 'correct-1', 'checked'=>$question->alternatives[0]->correct]],['hiddenField'=>false]) ?>
+                            <?= $this->Form->radio('correct', [['value' => '1', 'text'=> '', 'id'=> 'correct-1', 'checked'=>$question->alternatives[0]->correct]]) ?>
                         </span>
                         <?= $this->Form->input('alternative-1',['label'=>false, 'class'=>'form-control', 'value'=>$question->alternatives[0]->alternative,'autocomplete'=>'off']) ?>
                     </div>            

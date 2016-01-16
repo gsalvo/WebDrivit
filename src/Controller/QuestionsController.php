@@ -67,63 +67,44 @@ class QuestionsController extends AppController
      */
     public function add()
     {
+        $question = $this->Questions->newEntity();
         if ($this->request->is('post')) {            
-            //Save Question
-            $questionsTable  = TableRegistry::get('Questions');
-            $question = $questionsTable->newEntity();            
-            $question->question = $this->request->data['question'];
-            $question->image = $this->request->data['image']['name'];
-            $category = $questionsTable->Categories->findById($this->request->data['category_id'])->first();
-            $question->category = $category;           
-            //Save class
+            $questionData = array();           
+            $questionData['question'] = $this->request->data['question'];
+            $questionData['image'] = $this->request->data['image']['name'];            
+            $questionData['category_id'] = $this->request->data['category_id'];
+            $auxData = $this->Questions->Categories->findById($this->request->data['category_id'])->first();
+            if(isset($auxData)){
+                $questionData['categories'] = array('name' => $auxData->name, 'special' => $auxData->special);    
+            }         
+            $questionData['alternatives'] = array();
+            for($i = 0; $i < 3; $i++){
+                $auxAlterntaive = 'alternative-'.($i+1);
+                $auxCorrect = false;
+                if($this->request->data['correct'] == $i){
+                    $auxCorrect = true;
+                }
+                $questionData['alternatives'][$i] = array('alternative' => $this->request->data[$auxAlterntaive], 'correct'=>$auxCorrect);
+            }
             if($this->request->data['classB'] == 1 && $this->request->data['classC'] == 0){
-                $classB = $questionsTable->Types->findById('1')->first();
-                $question->types = [$classB];                
+                $questionData['types'] = array('_ids' => [1]);
             }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 0){
-                $classC = $questionsTable->Types->findById('2')->first();
-                $question->types = [$classC];                
+                $questionData['types'] = array('_ids' => [2]);                
             }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 1){
-                $classB = $questionsTable->Types->findById('1')->first();
-                $classC = $questionsTable->Types->findById('2')->first();
-                $question->types = [$classB, $classC];
+                $questionData['types'] = array('_ids' => [1,2]);
             }
-            //Save Alternative
-            $alternativeA = $questionsTable->Alternatives->newEntity();
-            $alternativeA->alternative = $this->request->data['alternative-1'];
-            $alternativeA->correct = 0;
-            $alternativeB = $questionsTable->Alternatives->newEntity();
-            $alternativeB->alternative = $this->request->data['alternative-2'];
-            $alternativeB->correct = 0;
-            $alternativeC = $questionsTable->Alternatives->newEntity();
-            $alternativeC->alternative = $this->request->data['alternative-3'];
-            $alternativeC->correct = 0;
-            
-            switch ($this->request->data['correct']) {
-                case 1:
-                    $alternativeA->correct = 1;
-                    break;
-                case 2:
-                    $alternativeB->correct = 1;
-                    break;
-                case 3:
-                    $alternativeC->correct = 1;
-                    break;
-            }
-            $question->alternatives = [$alternativeA, $alternativeB, $alternativeC];
-
-            if($questionsTable->save($question)){                                
+            $question = $this->Questions->patchEntity($question, $questionData);             
+            if($this->Questions->save($question)){
                 $this->Flash->success(__('La pregunta ha sido guardada'));
-                 return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index']);
             }else{
-                $this->Flash->error(__('La pregunta no ha podido ser guardada, intente nuevamente'));
-            }
-            
+                $this->Flash->error(__('La pregunta no ha podido ser guardada, revise los campos e intente nuevamente'));
+            }            
         }
         $categories = $this->Questions->Categories->find('list', ['limit' => 200]);
         $types = $this->Questions->Types->find('list', ['limit' => 200]);
         $this->set(compact('question', 'categories', 'types'));
         $this->set('_serialize', ['question']);
-
     }
 
     /**
@@ -137,64 +118,42 @@ class QuestionsController extends AppController
     {
         $question = $this->Questions->get($id, [
             'contain' => ['Types', 'Categories', 'Alternatives']
-        ]);
-        //debug($question);        
-        if ($this->request->is(['patch', 'post', 'put'])) {        
-            //debug($question);
-            $idAlternativeA = $question->alternatives[0]->id;
-            $idAlternativeB = $question->alternatives[1]->id;
-            $idAlternativeC = $question->alternatives[2]->id;
-            //Save Question
-            $questionsTable  = TableRegistry::get('Questions');
-            $question = $questionsTable->get($id);
-            $question->question = $this->request->data['question'];
-            $question->image = $this->request->data['image']['name'];
-            $category = $questionsTable->Categories->findById($this->request->data['category_id'])->first();
-            $question->category = $category;           
-            //Save class
-            if($this->request->data['classB'] == 1 && $this->request->data['classC'] == 0){
-                $classB = $questionsTable->Types->findById('1')->first();
-                $question->types = [$classB];                
-            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 0){
-                $classC = $questionsTable->Types->findById('2')->first();
-                $question->types = [$classC];                
-            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 1){
-                $classB = $questionsTable->Types->findById('1')->first();
-                $classC = $questionsTable->Types->findById('2')->first();
-                $question->types = [$classB, $classC];
-            }
-            //Save Alternative
-                   
-            $alternativeA = $questionsTable->Alternatives->findById($idAlternativeA)->first();
-            $alternativeA->alternative = $this->request->data['alternative-1'];
-            $alternativeA->correct = 0;
-            $alternativeB = $questionsTable->Alternatives->findById($idAlternativeB)->first();
-            $alternativeB->alternative = $this->request->data['alternative-2'];
-            $alternativeB->correct = 0;
-            $alternativeC = $questionsTable->Alternatives->findById($idAlternativeC)->first();
-            $alternativeC->alternative = $this->request->data['alternative-3'];
-            $alternativeC->correct = 0;
+        ]);         
+        if ($this->request->is(['patch', 'post', 'put'])) {             
+            $questionData = array();           
+            $questionData['question'] = $this->request->data['question'];
+            $questionData['image'] = $this->request->data['image']['name'];            
+            $questionData['category_id'] = $this->request->data['category_id'];
+            $auxData = $this->Questions->Categories->findById($this->request->data['category_id'])->first();
+            if(isset($auxData)){
+                $questionData['categories'] = array('name' => $auxData->name, 'special' => $auxData->special);    
+            }         
             
-            switch ($this->request->data['correct']) {
-                case 1:
-                    $alternativeA->correct = 1;
-                    break;
-                case 2:
-                    $alternativeB->correct = 1;
-                    break;
-                case 3:
-                    $alternativeC->correct = 1;
-                    break;
+            $questionData['alternatives'] = array();
+            for($i = 0; $i < 3; $i++){
+                $auxAlterntaive = 'alternative-'.($i+1);
+                $auxCorrect = false;
+                if($this->request->data['correct']-1 == $i){
+                    $auxCorrect = true;
+                }
+                $questionData['alternatives'][$i] = array('alternative' => $this->request->data[$auxAlterntaive], 'correct'=>$auxCorrect, 'id'=>$question->alternatives[$i]->id, 'question_id'=>$question->id);
             }
-            $question->alternatives = [$alternativeA, $alternativeB, $alternativeC];
-
-            if($questionsTable->save($question)){                                
+            
+            if($this->request->data['classB'] == 1 && $this->request->data['classC'] == 0){
+                $questionData['types'] = array('_ids' => [1]);
+            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 0){
+                $questionData['types'] = array('_ids' => [2]);                
+            }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 1){
+                $questionData['types'] = array('_ids' => [1,2]);
+            }
+            
+            $question = $this->Questions->patchEntity($question, $questionData);            
+            if($this->Questions->save($question)){                                
                 $this->Flash->success(__('La pregunta ha sido modificada'));
-                 return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index']);
             }else{
                 $this->Flash->error(__('La pregunta no ha podido ser modificada, intente nuevamente'));
             }
-            
         }
         $categories = $this->Questions->Categories->find('list', ['limit' => 200]);
         $types = $this->Questions->Types->find('list', ['limit' => 200]);
