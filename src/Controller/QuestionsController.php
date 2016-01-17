@@ -69,6 +69,7 @@ class QuestionsController extends AppController
     {
         $question = $this->Questions->newEntity();
         if ($this->request->is('post')) {            
+            debug($this->request->data);
             $questionData = array();           
             $questionData['question'] = $this->request->data['question'];
             $questionData['image'] = $this->request->data['image']['name'];            
@@ -81,7 +82,7 @@ class QuestionsController extends AppController
             for($i = 0; $i < 3; $i++){
                 $auxAlterntaive = 'alternative-'.($i+1);
                 $auxCorrect = false;
-                if($this->request->data['correct'] == $i){
+                if($this->request->data['correct']-1 == $i){
                     $auxCorrect = true;
                 }
                 $questionData['alternatives'][$i] = array('alternative' => $this->request->data[$auxAlterntaive], 'correct'=>$auxCorrect);
@@ -92,11 +93,15 @@ class QuestionsController extends AppController
                 $questionData['types'] = array('_ids' => [2]);                
             }else if($this->request->data['classC'] == 1 && $this->request->data['classB'] == 1){
                 $questionData['types'] = array('_ids' => [1,2]);
+            }else if($this->request->data['classB'] == 0 && $this->request->data['classC'] == 0){
+                $questionData['types'] = array('_ids' => [0]);
             }
             $question = $this->Questions->patchEntity($question, $questionData);             
+            debug($question);
             if($this->Questions->save($question)){
+                $this->upload($this->request->data['image']['tmp_name']);                
                 $this->Flash->success(__('La pregunta ha sido guardada'));
-                return $this->redirect(['action' => 'index']);
+                //return $this->redirect(['action' => 'index']);
             }else{
                 $this->Flash->error(__('La pregunta no ha podido ser guardada, revise los campos e intente nuevamente'));
             }            
@@ -127,8 +132,7 @@ class QuestionsController extends AppController
             $auxData = $this->Questions->Categories->findById($this->request->data['category_id'])->first();
             if(isset($auxData)){
                 $questionData['categories'] = array('name' => $auxData->name, 'special' => $auxData->special);    
-            }         
-            
+            }                     
             $questionData['alternatives'] = array();
             for($i = 0; $i < 3; $i++){
                 $auxAlterntaive = 'alternative-'.($i+1);
@@ -247,6 +251,31 @@ class QuestionsController extends AppController
         $this->set('number4C', $number4C);
         $this->set('_serialize', ['totalNumber', 'number1B', 'number2B', 'number3B', 'number4B',
         'number1C','number2C','number3C','number4C']);
+    }
+
+    /**
+     * upload method
+     *
+     * @return boolean when operation is finalized
+     */
+    private function upload($file){
+        $destination = $this->request->webroort .'img/xxxhdpi/img1.jpg';
+        if (move_uploaded_file($file, $destination)) {
+            list($realWidth, $realHeight) = getimagesize($destination);
+            $sizes = array('mdpi' => 0.25 , 'hdpi' => 0.375, 'xhdpi' => 0.5, 'xxhdpi' => 0.75);
+            foreach ($sizes as $key => $size) {
+                debug($key);
+                $newWidth = $realWidth * $size;
+                $newHeight = $realHeight * $size;
+                $newImage = imagecreatetruecolor($newWidth, $newHeight);
+                $image = imagecreatefromjpeg($this->request->webroort . 'img/xxxhdpi/img1.jpg');
+                imagecopyresampled($newImage,$image ,0,0,0,0,$newWidth,$newHeight,$realWidth,$realHeight);
+                imagejpeg($newImage, $this->request->webroort .'img/'.$key.'/img1.jpg');
+            }            
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 

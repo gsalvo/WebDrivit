@@ -60,13 +60,75 @@ class QuestionsTable extends Table
             ->add('id', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
-            ->requirePresence('question', 'create')
+            ->requirePresence('question')
             ->notEmpty('question','Debe ingresar una pregunta');
+
+        $validator
+            ->requirePresence('category_id')
+            ->notEmpty('category_id','Debe seleccionar una categoría');        
+
 
         $validator
             ->allowEmpty('image');
 
+        $validator
+            ->requirePresence('types')
+            ->add('types', 'validTypes', [
+                'rule' => function ($data, $provider) { 
+                    foreach ($data['_ids'] as $key => $type) {
+                        if($type == 0){
+                            return 'Debe seleccionar al menos una clase';
+                        }
+                    }                    
+                    return true;                    
+                }
+            ]);                    
+
+        $validator
+            ->requirePresence('alternatives')
+            ->add('alternatives', 'validAlternatives', [
+                'rule' => function ($data, $provider) {                
+                    foreach ($data as $key => $alternative) {
+                        if(strcmp($alternative['alternative'], "" ) == 0){
+                            return 'Debe ingresar las 3 alternativas';                            
+                        }                       
+                    }
+                    return true;
+                    
+                }
+            ]);
+
+        $validator
+            ->add('alternatives', 'validSelectedAlternative', [
+                'rule' => function ($data, $provider) {
+                    $alternativeSelected = 0 ;             
+                    foreach ($data as $key => $alternative) {
+                        if($alternative['correct'] == true){
+                            $alternativeSelected ++;                             
+                        }                       
+                    }
+                    if($alternativeSelected == 1){
+                        return true;
+                    }else{
+                        return 'Debe seleccionar una alternativa como correcta';                            
+                    }
+                }
+            ]);
+
+        $validator
+            ->add('image', [
+                'validImage'=> [
+                    'rule' => 'validSizeImage',
+                    'message' => 'El tamaño de la imagen supera los 0,5 MB',
+                    'provider' => 'table']]);
+
         return $validator;
+    }
+
+    public function validSizeImage($value, $context){
+        debug($context['data']['image']);
+        debug($values);
+        return false;
     }
 
     /**

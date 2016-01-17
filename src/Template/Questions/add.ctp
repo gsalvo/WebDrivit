@@ -16,14 +16,14 @@
                  ]])
             ?>
                 <div class="checkbox">
-                    <label>
-                        <?= $this->Form->checkbox('classB', ['value' => '1']);?>
+                    <label>                        
+                        <?= $this->Form->checkbox('classB', ['value' => '1']) ?>
                         Clase B
                     </label>
                 </div>
                 <div class="checkbox">
-                    <label>
-                        <?= $this->Form->checkbox('classC', ['value' => '1']);?>
+                    <label>                        
+                        <?= $this->Form->checkbox('classC', ['value' => '1'])?>
                         Clase C
                     </label>
                 </div>
@@ -58,6 +58,7 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <?= $this->Form->input("MAX_FILE_SIZE", ["type"=>"hidden", 'value'=> '500000' ]) ?>
                     <?= $this->Form->file('Imagen', ['name'=>'image'])?>
                 </div>
                 <div class="form-group save">
