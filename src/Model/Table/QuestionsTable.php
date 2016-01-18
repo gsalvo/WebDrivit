@@ -72,6 +72,9 @@ class QuestionsTable extends Table
             ->allowEmpty('image');
 
         $validator
+            ->allowEmpty('image-data');
+
+        $validator
             ->requirePresence('types')
             ->add('types', 'validTypes', [
                 'rule' => function ($data, $provider) { 
@@ -116,20 +119,52 @@ class QuestionsTable extends Table
             ]);
 
         $validator
-            ->add('image', [
-                'validImage'=> [
-                    'rule' => 'validSizeImage',
-                    'message' => 'El tamaño de la imagen supera los 0,5 MB',
-                    'provider' => 'table']]);
+            ->add('image-data', 'validImageError', [
+                'rule' => function ($data, $provider) {
+                    switch ($data['error']) {
+                        case 0:
+                            return true;
+                        case 1:
+                            return 'El archivo excede el máximo permitido de 0,5 MB';
+                        case 2:
+                            return 'El archivo excede el máximo permitido de 0,5 MB';
+                        case 3:
+                            return 'No se ha podido subir el archivo, intente nuevamente';
+                        case 4:
+                            return 'No se ha podido subir el archivo, intente nuevamente';
+                        case 6:
+                            return 'Ha ocurrido un error interno, intente nuevamente';
+                        case 7:
+                            return 'Problemas con la escritura en el servidor, intente nuevamente';
+                        case 8:
+                            return 'Problemas con la extensión del archivo';                            
+                        default:
+                            return 'No se ha podido subir el archivo, intente nuevamente';
+                    }
+                }
+            ]);
 
+        $validator
+            ->add('image-data', 'validImage', [
+                'rule' => function ($data, $provider) {
+                    if(strcmp($data['type'], 'image/jpeg') != 0 && $data['error'] != 1 && $data['error'] != 2){
+                        return 'El formato de la imagen debe ser JPEG';
+                    }else{
+                        list($realWidth, $realHeight) = getimagesize($data['tmp_name']);
+                        if($realWidth > 1000){
+                            return 'El ancho de la imagen no puede superar los 1000 px';
+                        }
+                        if($realWidth > 600){
+                            return 'El alto de la imagen no puede superar los 600 px';
+                        }
+                        return true;
+                    }
+                }
+            ]);     
         return $validator;
     }
 
-    public function validSizeImage($value, $context){
-        debug($context['data']['image']);
-        debug($values);
-        return false;
-    }
+    
 
     /**
      * Returns a rules checker object that will be used for validating

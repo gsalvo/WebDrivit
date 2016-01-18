@@ -53,13 +53,16 @@
             <?php 
                 if($question->image == null){
             ?>
-                    <div class="square">
+                    <div class="rectangle">
                         <span class="glyphicon glyphicon-picture"></span>
                     </div>                    
             <?php
+                }else{
+            ?>
+                    <?= $this->Html->image('hdpi/'.$question->image, ['alt' => 'Imagen de la pregunta']) ?>
+            <?php
                 }
             ?>
-            
         </div>
     </div>
 </div>

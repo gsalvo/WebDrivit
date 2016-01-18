@@ -137,14 +137,15 @@ table span.glyphicon.glyphicon-ok.icon-check, table span.glyphicon.glyphicon-rem
     text-align: center;
 }
 
-.square {
-    width: 300px;
-    height: 300px;
+.rectangle {
+    width: 375px;
+    height: 225px;
     background: #FBFBFB;
-    padding-top: 140px;
+    padding-top: 95px;
     font-size: 28px;
     text-align: center;
 }
+
 table.table.quantity {
     font-size: 15px;
     width: 470px;

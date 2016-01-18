@@ -85,7 +85,7 @@ $cakeDescription = 'Drivit: Panel de administración';
         </div>
     </div>    
     <script type="text/javascript">
-        $("#alert").fadeTo(5000, 500).slideUp(500, function(){
+        $("#alert").fadeTo(15000, 500).slideUp(500, function(){
         $("#alert").alert('close');});
     </script>
 </body>
