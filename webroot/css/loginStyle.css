@@ -1,0 +1,112 @@
+*, html {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background: url("../img/background.jpg") no-repeat fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+::-webkit-input-placeholder { /* Safari, Chrome and Opera */
+  color: white !important;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: white !important;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+  color: white !important;
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+  color: white !important;
+}
+
+::-ms-input-placeholder { /* Edge */
+  color: white !important;
+}
+
+:placeholder-shown { /* Standard one last! */
+  color: white !important;
+}
+
+@font-face {
+    font-family: ubuntu;
+    src: url(../fonts/Ubuntu-MI.ttf);
+}
+@font-face {
+    font-family: lato-light;
+    src: url(../fonts/Lato-L.ttf);
+}
+
+.content-login {
+
+	width: 325px;
+	height: 215px;	
+	background: rgb(0,171,79);
+	border-radius: 8px;
+	font-family:lato-light;	
+	color: white;
+	position: absolute;
+	top: 50%;
+	left: 50%;	
+	margin-top: -107px;
+	margin-left: -162px;
+}
+
+.row.title {
+	font-family: ubuntu;
+    color: white;
+    font-size: 23px;
+    text-align: center;
+    padding: 15px;
+}
+
+.row.form {
+	padding: 0px 40px 40px 40px;
+}
+
+.form-control {
+	height: auto;
+}
+.row.form input{
+	font-size: 15px;
+	color: white;
+	background: transparent;
+	border-radius: 0px;
+	border: 1px solid rgba(255,255,255,0.4);
+}
+
+.btn-default {
+    color: #fff;
+    background: transparent; ;
+    border-color: white;
+    border-radius: 0px;
+}
+.btn-default:hover {
+    color: #fff;
+    background-color: #03A04C;
+    border-color: white;
+    border-radius: 0px;
+}
+.btn-default:focus, .btn-default:active{
+    color: #fff;
+    background: transparent; ;
+    border-color: white;
+    box-shadow: none;
+}
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover, .open>.dropdown-toggle.btn-default.focus, .open>.dropdown-toggle.btn-success:focus, .open>.dropdown-toggle.btn-success:hover {
+    color: #fff;
+    background: transparent; ;
+    border-color: white;
+    box-shadow: none;
+}
+
+.form-group.button{
+	text-align: center;
+}
+

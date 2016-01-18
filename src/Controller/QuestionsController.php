@@ -19,6 +19,7 @@ class QuestionsController extends AppController
      */
     public function index()
     {
+        
         $this->paginate = ['limit' => 7];        
         $query = $this->Questions->find()->contain(['Categories','Alternatives','Types']);
         $query->matching('Alternatives')->distinct('questions.id');
@@ -53,6 +54,7 @@ class QuestionsController extends AppController
      */
     public function view($id = null)
     {
+        
         $question = $this->Questions->get($id, [
             'contain' => ['Categories', 'Types', 'Alternatives']
         ]);
@@ -67,6 +69,7 @@ class QuestionsController extends AppController
      */
     public function add()
     {
+        
         $question = $this->Questions->newEntity();
         if ($this->request->is('post')) {            
             $questionData = array();     
@@ -132,6 +135,7 @@ class QuestionsController extends AppController
      */
     public function edit($id = null)
     {
+        
         $question = $this->Questions->get($id, [
             'contain' => ['Types', 'Categories', 'Alternatives']
         ]);         
@@ -201,6 +205,7 @@ class QuestionsController extends AppController
      */
     public function delete($id = null)
     {
+        
         $this->request->allowMethod(['post', 'delete']);
         $question = $this->Questions->get($id);
         if ($this->Questions->delete($question)) {
@@ -217,6 +222,7 @@ class QuestionsController extends AppController
      * @return void
      */
     public function quantity(){
+        
         $query = $this->Questions->find()->contain(['Types']);        
         $query->matching('Types')->distinct('questions.id');
         $totalNumber = $query->count(); 
