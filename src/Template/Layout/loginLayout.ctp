@@ -37,7 +37,7 @@ $cakeDescription = 'Drivit - Ingreso de usuario';
 <body>
     <div class="container-fluid">
         <div class="container body">
-            <?= $this->Flash->render() ?>
+            
             <div class="row">
                 <?= $this->fetch('content') ?>
             </div>

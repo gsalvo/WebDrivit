@@ -49,7 +49,7 @@
                 ?>                                
             </div>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-5 content-image">
             <?php 
                 if($question->image == null){
             ?>

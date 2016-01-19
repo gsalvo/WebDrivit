@@ -115,7 +115,7 @@ table span.glyphicon.glyphicon-ok.icon-check, table span.glyphicon.glyphicon-rem
     margin-top: 15px;
 }
 .row.class.edit{
-    margin-top: 0px;        
+    margin-top: 15px;        
     float: right;
     margin-right: 15px;
 }
@@ -146,6 +146,10 @@ table span.glyphicon.glyphicon-ok.icon-check, table span.glyphicon.glyphicon-rem
     text-align: center;
 }
 
+.col-md-5.content-image {
+    text-align: center;
+}
+
 table.table.quantity {
     font-size: 15px;
     width: 470px;
@@ -160,6 +164,32 @@ table.table.quantity>tbody>tr>td {
 .form-group.save {
     text-align: right;
 }
+
+.previewImage {
+    height: 70px;
+    margin: 15px 15px;
+}
+.previewImage .contentNoImage, .previewImage .contentImage {
+    height: 100%;
+}
+.previewImage .contentNoImage {    
+    background: rgba(223,223,223,0.2);
+    font-size: 15px;
+    color: #8C8C8C;
+    text-align: center;
+    padding-top: 24px;
+}
+.contentImage .contentBtnImage{    
+    float: right;
+}
+
+.contentImage .contentBtnImage span{
+    cursor: pointer;
+}
+.contentImage .contentBtnImage span:hover{
+    color:#DE6B6B;
+}
+
 /* Bootstrap */
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
     z-index: 3;

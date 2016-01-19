@@ -67,7 +67,7 @@ $cakeDescription = 'Drivit: Panel de administración';
                                     <ul class="nav navbar-nav navbar-right">
                                         <li><?= $this->Html->link(
                                         $this->Html->tag('span','', ['class'=>'glyphicon glyphicon-log-out']),
-                                        ['controller' => 'Questions', 'action' => 'index', '_full' => true],
+                                        ['controller' => 'Users', 'action' => 'logout', '_full' => true],
                                         ['escape' => false])?>
                                     </ul>
                                 </div>

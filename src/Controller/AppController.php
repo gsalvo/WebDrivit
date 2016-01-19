@@ -43,6 +43,7 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        
         $this->loadComponent('Auth', [
             'loginRedirect'=> [
                 'controller'=>'Questions',
@@ -56,7 +57,7 @@ class AppController extends Controller
     }
 
     public function beforeFilter(Event $event){
-        $this->Auth->allow(['login', 'index', 'add']);
+        $this->Auth->allow(['login']);
     }
 
     /**

@@ -81,6 +81,26 @@
                 <div class="form-group">
                     <?= $this->Form->file('Imagen', ['name'=>'image'])?>
                 </div>
+                <div class="row">
+                    <div class="previewImage">
+                        <?php
+                        if($question->image == null){
+                        ?>
+                            <div class="contentNoImage">
+                                <span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen
+                            </div>
+                        <?php
+                        }else{
+                        ?>
+                            <div class="contentImage">
+                                <?= $this->Html->image('hdpi/'.$question->image, ['alt' => 'Imagen de la pregunta', 'max-height'=>'70px', 'max-width'=>'300px' ]) ?>
+                                <div class="contentBtnImage"><span class="glyphicon glyphicon-trash"></span></div>
+                            </div>                        
+                        <?php
+                        }
+                        ?>
+                    </div>
+                </div>
                 <div class="form-group save">
                     <?= $this->Form->button('Guardar', ['type'=> 'submit', 'class'=> 'btn btn-success']) ?>
                 </div>
@@ -96,7 +116,8 @@
                         <?= $this->Html->image('ic_motorbike.png', ['alt' => 'clase C', 'width'=>'40px']) ?>
                     </div>                      
                 </div>
-            </div>
+            </div>          
+            
         </div>
     </div>
 </diV>
@@ -122,22 +143,11 @@
             }else{
                 $('.circle.motorbike').hide();
             }
-        });    
+        });  
+
+        $('.delete.button.image').click(function(){
+            $('.row.image-question').hide();
+            $('.row.image-question.none').show();
+        });
     });    
 </script>
-
-<!--<div class="questions form large-9 medium-8 columns content">
-    <?= $this->Form->create($question) ?>
-    <fieldset>
-        <legend><?= __('Edit Question') ?></legend>
-        <?php
-            echo $this->Form->input('question');
-            echo $this->Form->input('image');
-            echo $this->Form->input('category_id', ['options' => $categories]);
-            echo $this->Form->input('types._ids', ['options' => $types]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
--->

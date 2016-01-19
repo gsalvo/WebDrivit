@@ -104,11 +104,29 @@ class UsersController extends AppController
     }
 
     /**
-     * quantity method
+     * login method
      *
      * @return void
      */
     public function login(){
         $this->viewBuilder()->layout('loginLayout');
+        if($this->request->is('post')){
+            $user = $this->Auth->identify();
+            if($user){
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());                
+            }
+            return $this->Flash->error('Usuario o contraseña incorrecta, intente nuevamente');            
+        }
     }
+
+    /**
+     * logout method
+     *
+     * @return void
+     */
+    public function logout(){
+        return $this->redirect($this->Auth->logout());
+    }
+
 }
