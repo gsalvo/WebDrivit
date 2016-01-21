@@ -147,18 +147,21 @@ class QuestionsTable extends Table
         $validator
             ->add('image-data', 'validImage', [
                 'rule' => function ($data, $provider) {
-                    if(strcmp($data['type'], 'image/jpeg') != 0 && $data['error'] != 1 && $data['error'] != 2){
-                        return 'El formato de la imagen debe ser JPEG';
-                    }else{
-                        list($realWidth, $realHeight) = getimagesize($data['tmp_name']);
-                        if($realWidth > 1000){
-                            return 'El ancho de la imagen no puede superar los 1000 px';
+                    if($data['type'] != ''){
+                        if(strcmp($data['type'], 'image/jpeg') != 0 && $data['error'] != 1 && $data['error'] != 2){
+                            return 'El formato de la imagen debe ser JPEG';
+                        }else{
+                            list($realWidth, $realHeight) = getimagesize($data['tmp_name']);
+                            if($realWidth > 1000){
+                                return 'El ancho de la imagen no puede superar los 1000 px';
+                            }
+                            if($realHeight > 600){
+                                return 'El alto de la imagen no puede superar los 600 px';
+                            }
+                            return true;
                         }
-                        if($realWidth > 600){
-                            return 'El alto de la imagen no puede superar los 600 px';
-                        }
-                        return true;
                     }
+                    return true;                    
                 }
             ]);     
         return $validator;

@@ -17,7 +17,7 @@
             ?>
                 <div class="checkbox">
                     <label>                        
-                        <?= $this->Form->checkbox('classB', ['value' => '1']) ?>
+                        <?= $this->Form->checkbox('classB', ['value' => '1', 'required'=> true]) ?>
                         Clase B
                     </label>
                 </div>
@@ -28,17 +28,17 @@
                     </label>
                 </div>
                 <div class="form-group">                
-                    <?= $this->Form->input('category_id', ['options' => $categories, 'class'=>'form-control', 'label'=> false, 'empty'=> 'Seleccione una categoría'])?>
+                    <?= $this->Form->input('category_id', ['options' => $categories, 'class'=>'form-control', 'label'=> false, 'empty'=> 'Seleccione una categoría', 'required'=> true])?>
                 </div>
                 <div class="form-group">
-                    <?= $this->Form->textarea('question', ['label' => false, 'class'=>'form-control', 'rows'=>'4', 'placeholder'=> 'Pregunta']) ?>
+                    <?= $this->Form->textarea('question', ['label' => false, 'class'=>'form-control', 'rows'=>'4', 'placeholder'=> 'Pregunta', 'required'=> true]) ?>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            <?= $this->Form->radio('correct', [['value' => '1', 'text'=> '', 'id'=> 'correct-1']]) ?>
+                            <?= $this->Form->radio('correct', [['value' => '1', 'text'=> '', 'id'=> 'correct-1', 'required'=> true]]) ?>
                         </span>
-                        <?= $this->Form->input('alternative-1',['label'=>false, 'class'=>'form-control', 'autocomplete'=>'off']) ?>
+                        <?= $this->Form->input('alternative-1',['label'=>false, 'class'=>'form-control', 'autocomplete'=>'off', 'required'=> true]) ?>
                     </div>            
                 </div>
                 <div class="form-group">
@@ -46,7 +46,7 @@
                         <span class="input-group-addon">
                             <?= $this->Form->radio('correct', [['value' => '2', 'text'=> '', 'id'=> 'correct-2']],['hiddenField'=>false]) ?>
                         </span>
-                        <?= $this->Form->input('alternative-2',['label'=>false, 'class'=>'form-control', 'autocomplete'=>'off']) ?>
+                        <?= $this->Form->input('alternative-2',['label'=>false, 'class'=>'form-control', 'autocomplete'=>'off', 'required'=> true]) ?>
                     </div>
                 </div>
                 <div class="form-group">
@@ -54,12 +54,32 @@
                         <span class="input-group-addon">
                             <?= $this->Form->radio('correct', [['value' => '3', 'text'=> '', 'id'=> 'correct-3']],['hiddenField'=>false]) ?>
                         </span>
-                        <?= $this->Form->input('alternative-3',['label'=>false, 'class'=>'form-control', 'autocomplete'=>'off']) ?>
+                        <?= $this->Form->input('alternative-3',['label'=>false, 'class'=>'form-control', 'autocomplete'=>'off', 'required'=> true]) ?>
                     </div>
                 </div>
                 <div class="form-group">
                     <?= $this->Form->input("MAX_FILE_SIZE", ["type"=>"hidden", 'value'=> '500000' ]) ?>
-                    <?= $this->Form->file('Imagen', ['name'=>'image'])?>
+                    <?= $this->Form->file('Imagen', ['name'=>'image', 'id' => 'image'])?>
+                </div>
+                <div class="row">
+                    <div class="previewImage">
+                        <?php
+                        if($question->image == null){
+                        ?>
+                            <div class="contentNoImage">
+                                <span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen
+                            </div>
+                        <?php
+                        }else{
+                        ?>
+                            <div class="contentImage">
+                                <?= $this->Html->image('hdpi/'.$question->image, ['alt' => 'Imagen de la pregunta']) ?>
+                                <div class="contentBtnImage"><span class="glyphicon glyphicon-trash"></span></div>
+                            </div>                        
+                        <?php
+                        }
+                        ?>
+                    </div>
                 </div>
                 <div class="form-group save">
                     <?= $this->Form->button('Guardar', ['type'=> 'submit', 'class'=> 'btn btn-success']) ?>
@@ -81,7 +101,12 @@
     </div>
 </diV>
 <script type="text/javascript">
-    $( document ).ready(function() {        
+    $( document ).ready(function() {   
+        if($('#image').val() == ""){
+            $('.previewImage').html('');
+            $('.previewImage').append('<div class="contentNoImage"><span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen</div>');
+            $('#stateImage').prop('checked', false);
+        }        
         if($('input[type="checkbox"][name="classB"]').is(':checked')){
             $('.circle.car').show();
         }
@@ -102,6 +127,31 @@
             }else{
                 $('.circle.motorbike').hide();
             }
-        });    
+        }); 
+        $('#image').on('change',function(){
+            var archives = document.getElementById('image').files;            
+            var browser = window.URL;            
+            var archive = archives[0];
+            var size = archive.size;            
+            var type = archive.type;
+            var objectUrl = browser.createObjectURL(archive);
+
+            if(type != 'image/jpeg' && type != 'image/jpg'){                
+                $('#image').val("");            
+            
+            }else{                 
+                $('.previewImage').html('');
+                $('#stateImage').prop('checked', false);
+                previewImage = '<div class="contentImage"><img src='+objectUrl+' alt = "Imagen de la pregunta"><div class="contentBtnImage"><span class="glyphicon glyphicon-trash"></span></div></div>';
+                $('.previewImage').append(previewImage);                
+                $('.contentBtnImage').click(function(){
+                    $('#image').val("");
+                    $('.previewImage').html('');
+                    $('.previewImage').append('<div class="contentNoImage"><span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen</div>');
+                    $('#stateImage').prop('checked', true);
+                }); 
+            }
+            
+        });   
     });    
 </script>

@@ -3,7 +3,7 @@ use Cake\Core\Configure;
 use Cake\Error\Debugger;
 
 if (Configure::read('debug')):
-    $this->layout = 'dev_error';
+    $this->layout = 'errors';
 
     $this->assign('title', $message);
     $this->assign('templateName', 'error500.ctp');
@@ -30,8 +30,23 @@ if (Configure::read('debug')):
     $this->end();
 endif;
 ?>
-<h2><?= __d('cake', 'An Internal Error Has Occurred') ?></h2>
-<p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
-    <?= h($message) ?>
-</p>
+<?php
+    $this->layout = 'errors';
+?>
+<div class="container-message">
+    <div class="row image">
+        <?= $this->Html->image('logo.png', ['alt' => 'Error']) ?>
+    </div>
+    <div class="row">
+        <div class="title"><h1>Oooops :(</h1></div>
+    </div>
+    <div class="row">
+        <div class="message"><h4>Lo sentimos ha ocurrido un error interno con el servidor de Drivit</h4></div>
+    </div>
+    <div class="row contentButton">
+        <?= $this->Html->link(
+                '<span class="glyphicon glyphicon-home"></span> Volver al inicio',
+                ['controller'=> 'Questions', 'action'=>'index', '_full' => true],
+                ['class' => 'btn btn-success', 'escape'=> false])?>
+    </div>
+</div

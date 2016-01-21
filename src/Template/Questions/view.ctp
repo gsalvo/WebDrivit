@@ -54,7 +54,8 @@
                 if($question->image == null){
             ?>
                     <div class="rectangle">
-                        <span class="glyphicon glyphicon-picture"></span>
+                        <span class="glyphicon glyphicon-picture"></span><br/>
+                        <span class="text">Esta pregunta no posee imagen</span>
                     </div>                    
             <?php
                 }else{

@@ -1,6 +1,5 @@
 <?php
 use Cake\Core\Configure;
-
 if (Configure::read('debug')):
     $this->layout = 'dev_error';
 
@@ -28,11 +27,24 @@ if (Configure::read('debug')):
     $this->end();
 endif;
 ?>
-<h2><?= h($message) ?></h2>
-<p class="error">
-    <strong><?= __d('cake', 'Error') ?>: </strong>
-    <?= sprintf(
-        __d('cake', 'The requested address %s was not found on this server.'),
-        "<strong>'{$url}'</strong>"
-    ) ?>
-</p>
+
+<?php
+    $this->layout = 'errors';
+?>
+<div class="container-message">
+    <div class="row image">
+        <?= $this->Html->image('logo.png', ['alt' => 'Error']) ?>
+    </div>
+    <div class="row">
+        <div class="title"><h1>Oooops :(</h1></div>
+    </div>
+    <div class="row">
+        <div class="message"><h4><?= sprintf('La dirección %s no fue encontrada en Drivit.', "<strong>'{$url}'</strong>") ?></h4></div>
+    </div>
+    <div class="row contentButton">
+        <?= $this->Html->link(
+                '<span class="glyphicon glyphicon-home"></span> Volver al inicio',
+                ['controller'=> 'Questions', 'action'=>'index', '_full' => true],
+                ['class' => 'btn btn-success', 'escape'=> false])?>
+    </div>
+</div

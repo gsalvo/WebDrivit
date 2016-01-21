@@ -49,17 +49,17 @@
                 </div>
                 <div class="form-group">
 
-                    <?= $this->Form->input('category_id', ['options' => $categories, 'class'=>'form-control', 'label'=> false, 'empty'=> 'Seleccione una categoría', 'default' => $question->category_id])?>
+                    <?= $this->Form->input('category_id', ['options' => $categories, 'class'=>'form-control', 'label'=> false, 'empty'=> 'Seleccione una categoría', 'default' => $question->category_id, 'required'=> true])?>
                 </div>
                 <div class="form-group">
-                    <?= $this->Form->textarea('question', ['label' => false, 'class'=>'form-control', 'rows'=>'4', 'placeholder'=> 'Pregunta', 'value'=>$question->question]) ?>
+                    <?= $this->Form->textarea('question', ['label' => false, 'class'=>'form-control', 'rows'=>'4', 'placeholder'=> 'Pregunta', 'value'=>$question->question, 'required'=> true]) ?>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">                            
-                            <?= $this->Form->radio('correct', [['value' => '1', 'text'=> '', 'id'=> 'correct-1', 'checked'=>$question->alternatives[0]->correct]]) ?>
+                            <?= $this->Form->radio('correct', [['value' => '1', 'text'=> '', 'id'=> 'correct-1', 'checked'=>$question->alternatives[0]->correct, 'required'=> true]]) ?>
                         </span>
-                        <?= $this->Form->input('alternative-1',['label'=>false, 'class'=>'form-control', 'value'=>$question->alternatives[0]->alternative,'autocomplete'=>'off']) ?>
+                        <?= $this->Form->input('alternative-1',['label'=>false, 'class'=>'form-control', 'value'=>$question->alternatives[0]->alternative,'autocomplete'=>'off', 'required'=> true]) ?>
                     </div>            
                 </div>
                 <div class="form-group">
@@ -67,7 +67,7 @@
                         <span class="input-group-addon">
                             <?= $this->Form->radio('correct', [['value' => '2', 'text'=> '', 'id'=> 'correct-2', 'checked'=>$question->alternatives[1]->correct]],['hiddenField'=>false]) ?>
                         </span>
-                        <?= $this->Form->input('alternative-2',['label'=>false, 'class'=>'form-control','value'=>$question->alternatives[1]->alternative, 'autocomplete'=>'off']) ?>
+                        <?= $this->Form->input('alternative-2',['label'=>false, 'class'=>'form-control','value'=>$question->alternatives[1]->alternative, 'autocomplete'=>'off', 'required'=> true]) ?>
                     </div>
                 </div>
                 <div class="form-group">
@@ -75,11 +75,12 @@
                         <span class="input-group-addon">
                             <?= $this->Form->radio('correct', [['value' => '3', 'text'=> '', 'id'=> 'correct-3', 'checked'=>$question->alternatives[2]->correct]],['hiddenField'=>false]) ?>
                         </span>
-                        <?= $this->Form->input('alternative-3',['label'=>false, 'class'=>'form-control','value'=>$question->alternatives[2]->alternative, 'autocomplete'=>'off']) ?>
+                        <?= $this->Form->input('alternative-3',['label'=>false, 'class'=>'form-control','value'=>$question->alternatives[2]->alternative, 'autocomplete'=>'off', 'required'=> true]) ?>
                     </div>
                 </div>
                 <div class="form-group">
-                    <?= $this->Form->file('Imagen', ['name'=>'image'])?>
+                    <?= $this->Form->checkbox('stateImage', ['hidden'=> true, 'checked'=>false, 'id'=>'stateImage']) ?> 
+                    <?= $this->Form->file('Imagen', ['name'=>'image', 'id'=> 'image'])?>
                 </div>
                 <div class="row">
                     <div class="previewImage">
@@ -93,7 +94,7 @@
                         }else{
                         ?>
                             <div class="contentImage">
-                                <?= $this->Html->image('hdpi/'.$question->image, ['alt' => 'Imagen de la pregunta', 'max-height'=>'70px', 'max-width'=>'300px' ]) ?>
+                                <?= $this->Html->image('hdpi/'.$question->image, ['alt' => 'Imagen de la pregunta']) ?>
                                 <div class="contentBtnImage"><span class="glyphicon glyphicon-trash"></span></div>
                             </div>                        
                         <?php
@@ -122,7 +123,26 @@
     </div>
 </diV>
 <script type="text/javascript">
-    $( document ).ready(function() {        
+    $( document ).ready(function() { 
+        var imageEntity = "<?= $imageQuestion ?>";        
+        if(imageEntity == '' && $('#image').val() == ""){
+            $('.previewImage').html('');
+            $('.previewImage').append('<div class="contentNoImage"><span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen</div>');
+            $('#stateImage').prop('checked', false);
+        }        
+        if(imageEntity != '' && $('#image').val() == ""){
+            $('.previewImage').html('');
+            previewImage = '<div class="contentImage"><?= $this->Html->image("hdpi/".$imageQuestion, ["alt" => "Imagen de la pregunta"]) ?><div class="contentBtnImage"><span class="glyphicon glyphicon-trash"></span></div></div>';
+            $('#stateImage').prop('checked', false);
+            $('.previewImage').append(previewImage);                
+                $('.contentBtnImage').click(function(){
+                    $('#image').val("");
+                    $('.previewImage').html('');
+                    $('.previewImage').append('<div class="contentNoImage"><span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen</div>');
+                    $('#stateImage').prop('checked', true);
+                }); 
+        }
+
         if($('input[type="checkbox"][name="classB"]').is(':checked')){
             $('.circle.car').show();
         }
@@ -145,9 +165,37 @@
             }
         });  
 
-        $('.delete.button.image').click(function(){
-            $('.row.image-question').hide();
-            $('.row.image-question.none').show();
+        $('.contentBtnImage').click(function(){
+            $('#image').val("");
+            $('.previewImage').html('');
+            $('.previewImage').append('<div class="contentNoImage"><span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen</div>');
+            $('#stateImage').prop('checked', true);
+        });
+
+        $('#image').on('change',function(){
+            var archives = document.getElementById('image').files;            
+            var browser = window.URL;            
+            var archive = archives[0];
+            var size = archive.size;            
+            var type = archive.type;
+            var objectUrl = browser.createObjectURL(archive);
+
+            if(type != 'image/jpeg' && type != 'image/jpg'){                
+                $('#image').val("");            
+            
+            }else{                  
+                $('.previewImage').html('');
+                $('#stateImage').prop('checked', false);
+                previewImage = '<div class="contentImage"><img src='+objectUrl+' alt = "Imagen de la pregunta"><div class="contentBtnImage"><span class="glyphicon glyphicon-trash"></span></div></div>';
+                $('.previewImage').append(previewImage);                
+                $('.contentBtnImage').click(function(){
+                    $('#image').val("");
+                    $('.previewImage').html('');
+                    $('.previewImage').append('<div class="contentNoImage"><span class= "glyphicon glyphicon-picture"></span> Esta pregunta no posee una imagen</div>');
+                    $('#stateImage').prop('checked', true);
+                }); 
+            }
+            
         });
     });    
 </script>

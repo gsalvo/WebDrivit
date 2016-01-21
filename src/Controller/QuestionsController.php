@@ -68,10 +68,9 @@ class QuestionsController extends AppController
      * @return void Redirects on successful add, renders view otherwise.
      */
     public function add()
-    {
-        
+    {        
         $question = $this->Questions->newEntity();
-        if ($this->request->is('post')) {            
+        if ($this->request->is('post')) {             
             $questionData = array();     
             $nameFile = '';    
             $questionData['question'] = $this->request->data['question'];            
@@ -103,7 +102,7 @@ class QuestionsController extends AppController
             }else if($this->request->data['classB'] == 0 && $this->request->data['classC'] == 0){
                 $questionData['types'] = array('_ids' => [0]);
             }
-            $question = $this->Questions->patchEntity($question, $questionData);             
+            $question = $this->Questions->patchEntity($question, $questionData);                       
             if($this->Questions->save($question)){
                 $this->upload($this->request->data['image']['tmp_name'], $nameFile);                
                 $this->Flash->success(__('La pregunta ha sido guardada'));
@@ -138,9 +137,9 @@ class QuestionsController extends AppController
         
         $question = $this->Questions->get($id, [
             'contain' => ['Types', 'Categories', 'Alternatives']
-        ]);         
-        if ($this->request->is(['patch', 'post', 'put'])) {      
-            debug($this->request->data);
+        ]);
+        $imageQuestion = $question->image;         
+        if ($this->request->is(['patch', 'post', 'put'])) {                  
             $questionData = array();           
             $questionData['question'] = $this->request->data['question'];
             $nameFile = '';
@@ -148,6 +147,10 @@ class QuestionsController extends AppController
                 $nameFile = md5(uniqid($this->request->data['image']['name'], true)). '.jpg';
                 $questionData['image'] = $nameFile;
                 $questionData['image-data'] = $this->request->data['image'];
+            }else{
+                if($this->request->data['stateImage'] == 1){
+                    $questionData['image'] = '';
+                }
             }            
             $questionData['category_id'] = $this->request->data['category_id'];
             $auxData = $this->Questions->Categories->findById($this->request->data['category_id'])->first();
@@ -173,12 +176,11 @@ class QuestionsController extends AppController
             }else if($this->request->data['classB'] == 0 && $this->request->data['classC'] == 0){
                 $questionData['types'] = array('_ids' => [0]);
             }
-            debug($question);
             $question = $this->Questions->patchEntity($question, $questionData);            
             if($this->Questions->save($question)){
                 $this->upload($this->request->data['image']['tmp_name'], $nameFile);                
                 $this->Flash->success(__('La pregunta ha sido guardada'));
-                //return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'index']);
             }else{
                 $messageErrors = 'La pregunta no ha podido ser guardada, el/los error(es) encontrado(s): <br/> ';
                 $iError = 1;
@@ -193,7 +195,7 @@ class QuestionsController extends AppController
         }
         $categories = $this->Questions->Categories->find('list', ['limit' => 200]);
         $types = $this->Questions->Types->find('list', ['limit' => 200]);
-        $this->set(compact('question', 'categories', 'types'));
+        $this->set(compact('question', 'categories', 'types','imageQuestion'));
         $this->set('_serialize', ['question']);
     }
 

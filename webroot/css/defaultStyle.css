@@ -141,9 +141,14 @@ table span.glyphicon.glyphicon-ok.icon-check, table span.glyphicon.glyphicon-rem
     width: 375px;
     height: 225px;
     background: #FBFBFB;
-    padding-top: 95px;
+    padding-top: 70px;
     font-size: 28px;
+    color: #BBBBBB;
     text-align: center;
+}
+
+.rectangle span.text {
+    font-size: 12px;
 }
 
 .col-md-5.content-image {
@@ -166,9 +171,17 @@ table.table.quantity>tbody>tr>td {
 }
 
 .previewImage {
-    height: 70px;
-    margin: 15px 15px;
+    height: 72px;
+    margin: 0px 15px 15px 15px;
+    border-bottom: 1px solid #E8E8E8;
+    border-top: 1px solid #E8E8E8;
 }
+
+.previewImage .contentImage > img {    
+    max-height: 70px;
+    max-width: 300px;
+}
+
 .previewImage .contentNoImage, .previewImage .contentImage {
     height: 100%;
 }
@@ -181,6 +194,8 @@ table.table.quantity>tbody>tr>td {
 }
 .contentImage .contentBtnImage{    
     float: right;
+    margin-top: 25px;
+    margin-right: 25px;
 }
 
 .contentImage .contentBtnImage span{
