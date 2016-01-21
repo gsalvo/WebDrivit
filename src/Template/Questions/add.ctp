@@ -17,7 +17,7 @@
             ?>
                 <div class="checkbox">
                     <label>                        
-                        <?= $this->Form->checkbox('classB', ['value' => '1', 'required'=> true]) ?>
+                        <?= $this->Form->checkbox('classB', ['value' => '1']) ?>
                         Clase B
                     </label>
                 </div>

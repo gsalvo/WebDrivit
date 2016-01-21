@@ -153,5 +153,6 @@
     $(document).ready(function() {
         $("#btn-questions").attr('class', 'active');
         $("#btn-quantity").attr('class', '');
+        $("#btn-help").attr('class', '');
     });
 </script>

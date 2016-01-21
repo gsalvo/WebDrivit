@@ -290,6 +290,15 @@ class QuestionsController extends AppController
     }
 
     /**
+     * quantity method
+     *
+     * @return void
+     */
+    public function help(){
+
+    }
+
+    /**
      * upload method
      *
      * @return boolean when operation is finalized

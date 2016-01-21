@@ -205,6 +205,36 @@ table.table.quantity>tbody>tr>td {
     color:#DE6B6B;
 }
 
+.content.help {
+    padding: 30px;
+    padding-right: 60px
+}
+
+.content.help .linkContents {
+    color: blue;
+    margin-left: 15px;
+}
+
+.content.help .contentLinks{
+    margin-bottom: 25px;    
+}
+
+.contentText .row h4 {
+    margin-bottom: 0px;
+    color: #337ab7;
+    margin-top: 20px;
+}
+
+.contentText hr {
+    margin-top: 5px;
+}
+
+.contentText .row.body-text p {
+    font-size: 13px;
+    text-align: justify;
+
+}
+
 /* Bootstrap */
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
     z-index: 3;

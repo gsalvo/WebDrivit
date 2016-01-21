@@ -52,5 +52,6 @@
 	$(document).ready(function() {
     	$("#btn-questions").attr('class', '');
     	$("#btn-quantity").attr('class', 'active');
+    	$("#btn-help").attr('class', '');
 	});
 </script>

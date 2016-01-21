@@ -63,6 +63,9 @@ $cakeDescription = 'Drivit: Panel de administración';
                                             'Cantidades',
                                             ['controller' => 'Questions', 'action' => 'quantity', '_full' => true]) ?>
                                         </li>
+                                        <li id="btn-help"><?= $this->Html->link(
+                                            'Ayuda',
+                                            ['controller'=> 'Questions', 'action'=> 'help', '_full'=> true]) ?>
                                     </ul>
                                     <ul class="nav navbar-nav navbar-right">
                                         <li><?= $this->Html->link(
